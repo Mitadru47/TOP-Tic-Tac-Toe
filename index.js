@@ -32,6 +32,9 @@ function handleInput(player1, player2){
     let turnCounter = modules.displayController(1);
     console.log(turnCounter);
 
+    let stats = document.querySelector(".stats");
+    stats.innerText = player1.type;
+
     let gameBoardSlots = document.querySelectorAll(".gameBoard div");
     gameBoardSlots.forEach((slot) => {
 
@@ -43,13 +46,36 @@ function handleInput(player1, player2){
                 renderGameboard();
 
                 turnCounter.state = turnCounter.state + 1;
+                stats.innerText = player1.type;
 
                 if(turnCounter.state >= 6){
-                    checkGameStatus(player2);
+                    
+                    let winner = checkGameStatus(player2);
+                    if(winner === "X" || winner === "O"){
+
+                        stats.innerText = winner + " Wins!";
+
+                        let gameBoard = document.querySelector(".gameBoard");
+                        gameBoard.style.pointerEvents = "none";
+
+                        let restartButton = document.querySelector("#restart");
+                        restartButton.style.display = "block";
+
+                        restartButton.addEventListener("click", () => document.location.reload(), true);
+                    }
                 }
-                
+
                 if(turnCounter.state === 10){
+                    
                     console.log("Tie!");
+
+                    let gameBoard = document.querySelector(".gameBoard");
+                    gameBoard.style.pointerEvents = "none";
+
+                    let restartButton = document.querySelector("#restart");
+                    restartButton.style.display = "block";
+
+                    restartButton.addEventListener("click", () => document.location.reload(), true);
                 }
 
                 console.log(slot.id);
@@ -61,13 +87,36 @@ function handleInput(player1, player2){
                 renderGameboard();
 
                 turnCounter.state = turnCounter.state + 1;
+                stats.innerText = player2.type;
 
                 if(turnCounter.state >= 6){
-                    checkGameStatus(player1);
+
+                    let winner = checkGameStatus(player1);
+                    if(winner === "X" || winner === "O"){
+
+                        stats.innerText = winner + " Wins!";
+
+                        let gameBoard = document.querySelector(".gameBoard");
+                        gameBoard.style.pointerEvents = "none";
+
+                        let restartButton = document.querySelector("#restart");
+                        restartButton.style.display = "block";
+
+                        restartButton.addEventListener("click", () => document.location.reload(), true);
+                    }
                 }
 
                 if(turnCounter.state === 10){
-                    console.log("Tie!");
+
+                    stats.innerText = "Tie!";
+
+                    let gameBoard = document.querySelector(".gameBoard");
+                    gameBoard.style.pointerEvents = "none";
+
+                    let restartButton = document.querySelector("#restart");
+                    restartButton.style.display = "block";
+
+                    restartButton.addEventListener("click", () => document.location.reload(), true);
                 }
 
                 console.log(slot.id);
@@ -82,24 +131,18 @@ function handleInput(player1, player2){
 
 function checkGameStatus(player){
     
-    if(((board.array[0] === board.array[1]) && (board.array[0] === board.array[2]) && (board.array[0] !== ""))
+    if((((board.array[0] === board.array[1]) && (board.array[0] === board.array[2]) && (board.array[0] !== ""))
     || ((board.array[3] === board.array[4]) && (board.array[3] === board.array[5]) && (board.array[3] !== ""))
-    || ((board.array[6] === board.array[7]) && (board.array[6] === board.array[8]) && (board.array[6] !== ""))){
-        
-        console.log("\"" + player.type + "\" 1 Wins!");
-    } 
-    
-    else if(((board.array[0] === board.array[3]) && (board.array[0] === board.array[6]) && (board.array[0] !== ""))
+    || ((board.array[6] === board.array[7]) && (board.array[6] === board.array[8]) && (board.array[6] !== "")))    
+    ||
+    (((board.array[0] === board.array[3]) && (board.array[0] === board.array[6]) && (board.array[0] !== ""))
     || ((board.array[1] === board.array[4]) && (board.array[1] === board.array[7] && (board.array[1] !== "")))
-    || ((board.array[2] === board.array[5]) && (board.array[2] === board.array[8] && (board.array[2] !== "")))){
+    || ((board.array[2] === board.array[5]) && (board.array[2] === board.array[8] && (board.array[2] !== ""))))
+    ||
+    (((board.array[0] === board.array[4]) && (board.array[0] === board.array[8]) && (board.array[0] !== ""))
+    || ((board.array[2] === board.array[4]) && (board.array[2] === board.array[6]) && (board.array[2] !== "")))){
         
-        console.log("\"" + player.type + "\" 2 Wins!");
-    } 
-
-    else if(((board.array[0] === board.array[4]) && (board.array[0] === board.array[8]) && (board.array[0] !== ""))
-    || ((board.array[2] === board.array[4]) && (board.array[2] === board.array[6]) && (board.array[2] !== ""))){
-        
-        console.log("\"" + player.type + "\" 3 Wins!");
+        return player.type;
     } 
 
 }
@@ -115,7 +158,13 @@ function startGame(){
         console.log("X Button Clicked!");
 
         player1 = createPlayer("X");
-        player2 = createPlayer("O")
+        player2 = createPlayer("O");
+
+        let sectionA_Buttons = document.querySelector(".sectionA .buttons");
+        sectionA_Buttons.style.display = "none";
+
+        let sectionB = document.querySelector(".sectionB");
+        sectionB.style.display = "flex";
 
         // console.log(player1, player2);
 
@@ -132,7 +181,11 @@ function startGame(){
         player1 = createPlayer("O");
         player2 = createPlayer("X");
 
-        console.log(player1, player2);
+        let sectionA = document.querySelector(".sectionA");
+        sectionA.style.display = "none";
+
+        let sectionB = document.querySelector(".sectionB");
+        sectionB.style.display = "flex";
 
         // console.log(player1, player2);
 

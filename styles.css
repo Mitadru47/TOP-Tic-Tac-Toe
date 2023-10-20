@@ -12,25 +12,102 @@ body{
 
     margin: 5px;
     border: 1px solid blue;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 25px;
 }
 
 .sectionA{
 
     margin: 5px;
-
-    height: 10vh;
     border: 1px solid brown;
+
+    /* height: 100vh; */
+
+    display: flex;
+    flex-direction: column;
+    
+    justify-content: center;
+    text-align: center;
+
+    gap: 25px;
+}
+
+.sectionA div{
+    border: 1px solid goldenrod;
+}
+
+.title{
+    font-size: 5rem;
+}
+
+.buttons{
+
+    display: flex;
+
+    justify-content: center;
+    text-align: center;
+
+    gap: 10px;
+}
+
+button{
+
+    border: 2px solid black;
+    border-radius: 10px;
+
+    background-color: white;
+
+    font-size: 2rem;
+    padding: 5px 15px;
+}
+
+button:hover{
+
+    background-color: black;
+    color: white;
 }
 
 .sectionB{
 
     margin: 5px;
 
-    /* height: 33vh; */
+    /* height: 100vh; */
     border: 1px solid brown;
 
-    display: flex;
+    /* display: flex; */
+    display: none;
+
+    flex-direction: column;
+
     justify-content: center;
+    align-items: center;
+
+    gap: 20px;
+}
+
+.sectionB div{
+
+    padding: 5px;
+
+    border: 2px solid black;
+    border-radius: 10px;
+}
+
+.toolbar{
+
+    display: flex;
+    gap: 10px;
+}
+
+.stats{
+    font-size: 2rem;
+}
+
+#restart{
+    display: none;
 }
 
 .gameBoard{
@@ -64,6 +141,6 @@ body{
 
     margin: 5px;
 
-    height: 10vh;
+    /* height: 10vh; */
     border: 1px solid brown;
 }
