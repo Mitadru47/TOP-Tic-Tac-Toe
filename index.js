@@ -23,6 +23,9 @@ function renderGameboard(){
         // console.log(key, slot); 
         slot.innerText = board.array[key];
     });
+
+    let restartButton = document.querySelector("#restart");
+    restartButton.addEventListener("click", () => document.location.reload(), true);
 }
 
 // renderGameboard();
@@ -39,7 +42,7 @@ function handleInput(player1, player2){
     gameBoardSlots.forEach((slot) => {
 
         slot.addEventListener("click", function (){
-
+            
             if((turnCounter.state % 2) === 0 && (slot.innerText === "")){
 
                 board.array[Number(slot.id.substring(4)) - 1] = player2.type;
@@ -57,25 +60,15 @@ function handleInput(player1, player2){
 
                         let gameBoard = document.querySelector(".gameBoard");
                         gameBoard.style.pointerEvents = "none";
-
-                        let restartButton = document.querySelector("#restart");
-                        restartButton.style.display = "block";
-
-                        restartButton.addEventListener("click", () => document.location.reload(), true);
                     }
-                }
 
-                if(turnCounter.state === 10){
-                    
-                    console.log("Tie!");
+                    else if(turnCounter.state === 10){
 
-                    let gameBoard = document.querySelector(".gameBoard");
-                    gameBoard.style.pointerEvents = "none";
+                        console.log("Tie!");
 
-                    let restartButton = document.querySelector("#restart");
-                    restartButton.style.display = "block";
-
-                    restartButton.addEventListener("click", () => document.location.reload(), true);
+                        let gameBoard = document.querySelector(".gameBoard");
+                        gameBoard.style.pointerEvents = "none";
+                    }
                 }
 
                 console.log(slot.id);
@@ -98,25 +91,15 @@ function handleInput(player1, player2){
 
                         let gameBoard = document.querySelector(".gameBoard");
                         gameBoard.style.pointerEvents = "none";
-
-                        let restartButton = document.querySelector("#restart");
-                        restartButton.style.display = "block";
-
-                        restartButton.addEventListener("click", () => document.location.reload(), true);
                     }
-                }
+                
+                    else if(turnCounter.state === 10){
 
-                if(turnCounter.state === 10){
+                        stats.innerText = "Tie!";
 
-                    stats.innerText = "Tie!";
-
-                    let gameBoard = document.querySelector(".gameBoard");
-                    gameBoard.style.pointerEvents = "none";
-
-                    let restartButton = document.querySelector("#restart");
-                    restartButton.style.display = "block";
-
-                    restartButton.addEventListener("click", () => document.location.reload(), true);
+                        let gameBoard = document.querySelector(".gameBoard");
+                        gameBoard.style.pointerEvents = "none";
+                    }
                 }
 
                 console.log(slot.id);
@@ -181,8 +164,8 @@ function startGame(){
         player1 = createPlayer("O");
         player2 = createPlayer("X");
 
-        let sectionA = document.querySelector(".sectionA");
-        sectionA.style.display = "none";
+        let sectionA_Buttons = document.querySelector(".sectionA .buttons");
+        sectionA_Buttons.style.display = "none";
 
         let sectionB = document.querySelector(".sectionB");
         sectionB.style.display = "flex";
@@ -191,6 +174,36 @@ function startGame(){
 
         renderGameboard();
         handleInput(player1, player2);
+
+    }, true);
+
+    let plusButton = document.querySelector("#extraOptions");
+    plusButton.addEventListener("click", function (){
+
+        console.log("+ Button Clicked!");
+
+        let options = document.querySelector("form");
+
+        if(options.style.display === "block"){
+            options.style.display = "none";
+
+        } else {
+            options.style.display = "block";
+        }
+
+        // player1 = createPlayer("O");
+        // player2 = createPlayer("X");
+
+        // let sectionA_Buttons = document.querySelector(".sectionA .buttons");
+        // sectionA_Buttons.style.display = "none";
+
+        // let sectionB = document.querySelector(".sectionB");
+        // sectionB.style.display = "flex";
+
+        // // console.log(player1, player2);
+
+        // renderGameboard();
+        // handleInput(player1, player2);
 
     }, true);
 }
