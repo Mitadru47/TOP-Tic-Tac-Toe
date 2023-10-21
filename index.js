@@ -11,8 +11,8 @@ const board = modules.gameBoard(["","","","","","","","",""]);
 // console.log(board);
 
 // Factory Function:
-const createPlayer = function (type){
-    return { type };
+const createPlayer = function (name, type){
+    return { name, type };
 }
 
 function renderGameboard(){
@@ -35,8 +35,14 @@ function handleInput(player1, player2){
     let turnCounter = modules.displayController(1);
     console.log(turnCounter);
 
-    let stats = document.querySelector(".stats");
-    stats.innerText = player1.type;
+    let title = document.querySelector(".title");
+    title.innerText = player1.name + "'s Turn!"
+
+    // let stat1 = document.querySelector(".stat1");
+    // stat1.innerText = player1.name;
+
+    let stat2 = document.querySelector(".stat2");
+    stat2.innerText = player1.type;
 
     let gameBoardSlots = document.querySelectorAll(".gameBoard div");
     gameBoardSlots.forEach((slot) => {
@@ -49,14 +55,17 @@ function handleInput(player1, player2){
                 renderGameboard();
 
                 turnCounter.state = turnCounter.state + 1;
-                stats.innerText = player1.type;
+
+                title.innerText = player1.name + "'s Turn!"
+                stat2.innerText = player1.type;
 
                 if(turnCounter.state >= 6){
                     
                     let winner = checkGameStatus(player2);
-                    if(winner === "X" || winner === "O"){
+                    if(winner.type === "X" || winner.type === "O"){
 
-                        stats.innerText = winner + " Wins!";
+                        title.innerText = winner.name + " Wins!";
+                        stat2.innerText = winner.type;
 
                         let gameBoard = document.querySelector(".gameBoard");
                         gameBoard.style.pointerEvents = "none";
@@ -64,7 +73,8 @@ function handleInput(player1, player2){
 
                     else if(turnCounter.state === 10){
 
-                        console.log("Tie!");
+                        title.innerText = "No One Wins!";
+                        stat2.style.display = "none";
 
                         let gameBoard = document.querySelector(".gameBoard");
                         gameBoard.style.pointerEvents = "none";
@@ -80,14 +90,17 @@ function handleInput(player1, player2){
                 renderGameboard();
 
                 turnCounter.state = turnCounter.state + 1;
-                stats.innerText = player2.type;
+
+                title.innerText = player2.name + "'s Turn!"
+                stat2.innerText = player2.type;
 
                 if(turnCounter.state >= 6){
 
                     let winner = checkGameStatus(player1);
-                    if(winner === "X" || winner === "O"){
+                    if(winner.type === "X" || winner.type === "O"){
 
-                        stats.innerText = winner + " Wins!";
+                        title.innerText = winner.name + " Wins!";
+                        stat2.innerText = winner.type;
 
                         let gameBoard = document.querySelector(".gameBoard");
                         gameBoard.style.pointerEvents = "none";
@@ -95,7 +108,8 @@ function handleInput(player1, player2){
                 
                     else if(turnCounter.state === 10){
 
-                        stats.innerText = "Tie!";
+                        title.innerText = "No One Wins!";
+                        stat2.style.display = "none";
 
                         let gameBoard = document.querySelector(".gameBoard");
                         gameBoard.style.pointerEvents = "none";
@@ -125,9 +139,10 @@ function checkGameStatus(player){
     (((board.array[0] === board.array[4]) && (board.array[0] === board.array[8]) && (board.array[0] !== ""))
     || ((board.array[2] === board.array[4]) && (board.array[2] === board.array[6]) && (board.array[2] !== "")))){
         
-        return player.type;
+        return player;
     } 
 
+    return "None";
 }
 
 function startGame(){
@@ -140,19 +155,59 @@ function startGame(){
 
         console.log("X Button Clicked!");
 
-        player1 = createPlayer("X");
-        player2 = createPlayer("O");
+        let options = document.querySelector("form");
+        options.style.display = "block";
 
-        let sectionA_Buttons = document.querySelector(".sectionA .buttons");
-        sectionA_Buttons.style.display = "none";
+        let player1Options = document.querySelector(".player1");
+        player1Options.style.display = "flex";
 
-        let sectionB = document.querySelector(".sectionB");
-        sectionB.style.display = "flex";
+        let player2Options = document.querySelector(".player2");
+        player2Options.style.display = "none";
 
-        // console.log(player1, player2);
+        let player1Name = document.querySelector(".player1 input");
+        // console.log(player1Name.value);
 
-        renderGameboard();
-        handleInput(player1, player2);
+        let player1Done = document.querySelector(".player1 .done");
+        player1Done.addEventListener("click", (event) => {
+
+            event.preventDefault();
+            if(player1Name.value !== ""){
+
+                player1 = createPlayer(player1Name.value, "X");
+                
+                player1Options.style.display = "none";
+                player2Options.style.display = "flex";
+
+                console.log(player1);
+
+                let player2Name = document.querySelector(".player2 input");
+                // console.log(player2Name.value);
+
+                let player2Done = document.querySelector(".player2 .done");
+                player2Done.addEventListener("click", (event) => {
+
+                    event.preventDefault();
+                    if((player2Name.value !== "") && (player1.name !== player2Name.value)){
+
+                        player2 = createPlayer(player2Name.value, "O");
+                        console.log(player2);
+
+                        let sectionA_Buttons = document.querySelector(".sectionA .buttons");
+                        sectionA_Buttons.style.display = "none";
+
+                        let sectionB = document.querySelector(".sectionB");
+                        sectionB.style.display = "flex";
+
+                        console.log(player1, player2);
+
+                        renderGameboard();
+                        handleInput(player1, player2);
+                    }
+
+                }, true);
+            }
+
+        }, true);
 
     }, true);
 
@@ -161,50 +216,60 @@ function startGame(){
 
         console.log("O Button Clicked!");
 
-        player1 = createPlayer("O");
-        player2 = createPlayer("X");
-
-        let sectionA_Buttons = document.querySelector(".sectionA .buttons");
-        sectionA_Buttons.style.display = "none";
-
-        let sectionB = document.querySelector(".sectionB");
-        sectionB.style.display = "flex";
-
-        // console.log(player1, player2);
-
-        renderGameboard();
-        handleInput(player1, player2);
-
-    }, true);
-
-    let plusButton = document.querySelector("#extraOptions");
-    plusButton.addEventListener("click", function (){
-
-        console.log("+ Button Clicked!");
-
         let options = document.querySelector("form");
+        options.style.display = "block";
 
-        if(options.style.display === "block"){
-            options.style.display = "none";
+        let player1Options = document.querySelector(".player1");
+        player1Options.style.display = "flex";
 
-        } else {
-            options.style.display = "block";
-        }
+        let player2Options = document.querySelector(".player2");
+        player2Options.style.display = "none";
 
-        // player1 = createPlayer("O");
-        // player2 = createPlayer("X");
+        let player1Name = document.querySelector(".player1 input");
+        // console.log(player1Name.value);
 
-        // let sectionA_Buttons = document.querySelector(".sectionA .buttons");
-        // sectionA_Buttons.style.display = "none";
+        let player1Done = document.querySelector(".player1 .done");
+        player1Done.addEventListener("click", (event) => {
 
-        // let sectionB = document.querySelector(".sectionB");
-        // sectionB.style.display = "flex";
+            event.preventDefault();
+            if(player1Name.value !== ""){
 
-        // // console.log(player1, player2);
+                player1 = createPlayer(player1Name.value, "O");
+                
+                player1Options.style.display = "none";
+                player2Options.style.display = "flex";
 
-        // renderGameboard();
-        // handleInput(player1, player2);
+                console.log(player1);
 
+                let player2Name = document.querySelector(".player2 input");
+                // console.log(player2Name.value);
+
+                let player2Done = document.querySelector(".player2 .done");
+                player2Done.addEventListener("click", (event) => {
+
+                    event.preventDefault();
+                    if(player2Name.value !== ""){
+
+                        player2 = createPlayer(player2Name.value, "X");
+                        console.log(player2);
+
+                        let sectionA_Buttons = document.querySelector(".sectionA .buttons");
+                        sectionA_Buttons.style.display = "none";
+                
+                        let sectionB = document.querySelector(".sectionB");
+                        sectionB.style.display = "flex";
+                
+                        console.log(player1, player2);
+                
+                        renderGameboard();
+                        handleInput(player1, player2);
+                    }
+
+                }, true);
+            }
+
+        }, true);
+        
     }, true);
 }
 

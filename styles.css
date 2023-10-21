@@ -73,7 +73,7 @@ body{
     gap: 2px;
 }
 
-button{
+#X, #O, #restart{
 
     border: 2px solid black;
     border-radius: 10px;
@@ -86,7 +86,7 @@ button{
     font-family: 'Martian Mono', monospace;
 }
 
-button:hover{
+#X:hover, #O:hover, #restart:hover, .done:hover{
 
     background-color: black;
     color: white;
@@ -117,6 +117,12 @@ form{
     background-color: #F6FDC3;
 }
 
+.player1, .player2{
+
+    display: none;
+    gap: 2px;
+}
+
 input{
 
     height: 20px;
@@ -127,8 +133,25 @@ input{
     padding: 5px;
     margin: 5px;
 
+    margin-right: 0;
+
     background-color: #CDFAD5;
     font-family: 'Martian Mono', monospace;
+}
+
+.done{
+
+    font-family: 'Martian Mono', monospace;
+
+    margin: 5px;
+    padding: 5px;
+
+    margin-left: 0;
+
+    border: 2px solid black;
+    border-radius: 10px;
+
+    background-color: #FFCF96;
 }
 
 .sectionB{
@@ -166,7 +189,7 @@ input{
     background-color: #F6FDC3;
 }
 
-.stats{
+.stat1, .stat2{
     
     border: 2px solid black;
 
