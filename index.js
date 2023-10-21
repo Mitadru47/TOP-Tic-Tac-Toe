@@ -126,6 +126,129 @@ function handleInput(player1, player2){
     });
 }
 
+function handleAI(player1, player2){
+
+    let gameEnd = false;
+
+    let turnCounter = modules.displayController(1);
+    console.log(turnCounter);
+
+    let title = document.querySelector(".title");
+    title.innerText = player1.name + "'s Turn!"
+
+    // let stat1 = document.querySelector(".stat1");
+    // stat1.innerText = player1.name;
+
+    let stat2 = document.querySelector(".stat2");
+    stat2.innerText = player1.type;
+
+    let gameBoardSlots = document.querySelectorAll(".gameBoard div");
+    gameBoardSlots.forEach((slot) => {
+
+        slot.addEventListener("click", function (){
+
+            if((turnCounter.state % 2) !== 0 && (slot.innerText === "")){
+
+                board.array[Number(slot.id.substring(4)) - 1] = player1.type;
+                renderGameboard();
+
+                turnCounter.state = turnCounter.state + 1;
+
+                title.innerText = player2.name + "'s Turn!"
+                stat2.innerText = player2.type;
+
+                if(turnCounter.state >= 6){
+
+                    let winner = checkGameStatus(player1);
+                    if(winner.type === "X" || winner.type === "O"){
+
+                        title.innerText = winner.name + " Wins!";
+                        stat2.innerText = winner.type;
+
+                        let gameBoard = document.querySelector(".gameBoard");
+                        gameBoard.style.pointerEvents = "none";
+
+                        gameEnd = true;
+                    }
+                
+                    else if(turnCounter.state === 10){
+
+                        title.innerText = "No One Wins!";
+                        stat2.style.display = "none";
+
+                        let gameBoard = document.querySelector(".gameBoard");
+                        gameBoard.style.pointerEvents = "none";
+
+                        gameEnd = true;
+                    }
+                }
+
+                console.log(slot.id);
+                console.log(turnCounter);
+
+                // AI's Turn
+
+                if(!gameEnd){
+                    
+                    setTimeout(()=>{
+
+                        //Generate Move
+
+                        let move = 0;
+                        let flag = true;
+
+                        while(flag){
+
+                            move = Math.round(Math.random() * 8);
+
+                            if(board.array[move] === ""){
+                                
+                                flag = false;
+                                console.log(move);
+                            }
+                        }
+                        
+                        board.array[move] = player2.type;
+                        renderGameboard();
+
+                        turnCounter.state = turnCounter.state + 1;
+
+                        title.innerText = player1.name + "'s Turn!"
+                        stat2.innerText = player1.type;
+
+                        if(turnCounter.state >= 6){
+                        
+                            let winner = checkGameStatus(player2);
+                            if(winner.type === "X" || winner.type === "O"){
+        
+                                title.innerText = winner.name + " Wins!";
+                                stat2.innerText = winner.type;
+        
+                                let gameBoard = document.querySelector(".gameBoard");
+                                gameBoard.style.pointerEvents = "none";
+
+                                gameEnd = true;
+                            }
+        
+                            else if(turnCounter.state === 10){
+        
+                                title.innerText = "No One Wins!";
+                                stat2.style.display = "none";
+        
+                                let gameBoard = document.querySelector(".gameBoard");
+                                gameBoard.style.pointerEvents = "none";
+
+                                gameEnd = true;
+                            }
+                        }
+                        
+                    }, 1000); 
+                }  
+            }
+        }, true);
+    });
+}
+
 function checkGameStatus(player){
     
     if((((board.array[0] === board.array[1]) && (board.array[0] === board.array[2]) && (board.array[0] !== ""))
@@ -214,6 +337,27 @@ function startGame(){
                     }
 
                 }, true);
+
+                let aiButton = document.querySelector("#ai");
+                aiButton.style.display = "inline-block";
+
+                aiButton.addEventListener("click", ()=>{
+
+                    player2 = createPlayer("AI", "O");
+                    console.log(player2);
+
+                    let sectionA_Buttons = document.querySelector(".sectionA .buttons");
+                    sectionA_Buttons.style.display = "none";
+
+                    let sectionB = document.querySelector(".sectionB");
+                    sectionB.style.display = "flex";
+
+                    console.log(player1, player2);
+
+                    renderGameboard();
+                    handleAI(player1, player2);
+
+                }, true);
             }
 
         }, true);
@@ -282,6 +426,27 @@ function startGame(){
                         renderGameboard();
                         handleInput(player1, player2);
                     }
+
+                }, true);
+
+                let aiButton = document.querySelector("#ai");
+                aiButton.style.display = "inline-block";
+
+                aiButton.addEventListener("click", ()=>{
+
+                    player2 = createPlayer("AI", "X");
+                    console.log(player2);
+
+                    let sectionA_Buttons = document.querySelector(".sectionA .buttons");
+                    sectionA_Buttons.style.display = "none";
+
+                    let sectionB = document.querySelector(".sectionB");
+                    sectionB.style.display = "flex";
+
+                    console.log(player1, player2);
+
+                    renderGameboard();
+                    handleAI(player1, player2);
 
                 }, true);
             }

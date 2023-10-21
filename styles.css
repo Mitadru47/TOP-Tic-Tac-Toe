@@ -86,7 +86,23 @@ body{
     font-family: 'Martian Mono', monospace;
 }
 
-#X:hover, #O:hover, #restart:hover, .done:hover{
+#ai{
+
+    border: 2px solid black;
+    border-radius: 10px;
+
+    background-color: #BEADFA;
+    display: none;
+
+    margin: 5px;
+    padding: 7px 15px;
+
+    margin-top: 0px;
+
+    font-family: 'Martian Mono', monospace;
+}
+
+#X:hover, #O:hover, #restart:hover, .done:hover, #ai:hover{
 
     background-color: black;
     color: white;
