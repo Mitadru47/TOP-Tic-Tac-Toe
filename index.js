@@ -155,6 +155,12 @@ function startGame(){
 
         console.log("X Button Clicked!");
 
+        let buttonContainer = document.querySelector(".buttonContainer");
+        buttonContainer.style.gap = "0px";
+
+        let oButton = document.querySelector("#O");
+        oButton.style.display = "none";
+
         let options = document.querySelector("form");
         options.style.display = "block";
 
@@ -175,6 +181,9 @@ function startGame(){
 
                 player1 = createPlayer(player1Name.value, "X");
                 
+                xButton.style.display = "none";
+                oButton.style.display = "inline-block";
+
                 player1Options.style.display = "none";
                 player2Options.style.display = "flex";
 
@@ -216,6 +225,12 @@ function startGame(){
 
         console.log("O Button Clicked!");
 
+        let buttonContainer = document.querySelector(".buttonContainer");
+        buttonContainer.style.gap = "0px";
+
+        let xButton = document.querySelector("#X");
+        xButton.style.display = "none";
+
         let options = document.querySelector("form");
         options.style.display = "block";
 
@@ -235,6 +250,9 @@ function startGame(){
             if(player1Name.value !== ""){
 
                 player1 = createPlayer(player1Name.value, "O");
+
+                oButton.style.display = "none";
+                xButton.style.display = "inline-block";
                 
                 player1Options.style.display = "none";
                 player2Options.style.display = "flex";
@@ -248,7 +266,7 @@ function startGame(){
                 player2Done.addEventListener("click", (event) => {
 
                     event.preventDefault();
-                    if(player2Name.value !== ""){
+                    if((player2Name.value !== "") && (player1.name !== player2Name.value)){
 
                         player2 = createPlayer(player2Name.value, "X");
                         console.log(player2);
